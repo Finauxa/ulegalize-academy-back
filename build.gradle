@@ -1,9 +1,7 @@
 plugins {
     id 'java'
-    id 'maven-publish'
     id 'org.springframework.boot' version '2.3.5.RELEASE'
     id 'io.spring.dependency-management' version '1.0.9.RELEASE'
-    id "org.sonarqube" version "3.0"
 
 }
 
@@ -33,53 +31,34 @@ springBoot {
 }
 
 dependencies {
-    implementation "com.ulegalize:ulegalizeshare:${ulegalizeShare}"
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-mongodb'
-    implementation group: 'com.google.code.gson', name: 'gson', version: "${googleGson}"
-    // loggin stuff
-    compile 'org.springframework.cloud:spring-cloud-starter-sleuth'
-    compile 'net.logstash.logback:logstash-logback-encoder:6.6'
-    compile 'ch.qos.logback:logback-core:1.2.3'
-    compile 'ch.qos.logback:logback-classic:1.2.3'
-    compile 'ch.qos.logback:logback-access:1.2.3'
-
-//    compile 'org.springframework.boot:spring-boot-starter-data-mongodb'
-    implementation ('org.springframework.boot:spring-boot-starter-web') {
-        exclude group:'org.springframework.boot', module: 'spring-boot-starter-tomcat'
+    implementation('org.springframework.boot:spring-boot-starter-web') {
+        exclude group: 'org.springframework.boot', module: 'spring-boot-starter-tomcat'
     }
-    implementation 'org.springframework.boot:spring-boot-starter-hateoas'
-    implementation 'org.springframework.boot:spring-boot-starter-mail'
-    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     runtimeOnly 'org.springframework.boot:spring-boot-devtools'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     implementation 'org.springframework.boot:spring-boot-starter-tomcat'
-    testImplementation "org.springframework.security:spring-security-test:${springSecurity}"
 // https://mvnrepository.com/artifact/org.springframework.data/spring-data-releasetrain
-    testImplementation group: 'de.flapdoodle.embed', name: 'de.flapdoodle.embed.mongo', version: '2.2.0'
-
-    implementation 'org.springframework.cloud:spring-cloud-gcp-starter'
 
     implementation "io.jsonwebtoken:jjwt-api:${jsonwebtoken}"
+    testImplementation 'com.h2database:h2'
 
     runtimeOnly "io.jsonwebtoken:jjwt-impl:${jsonwebtoken}"
     runtimeOnly "io.jsonwebtoken:jjwt-jackson:${jsonwebtoken}"
+    implementation "mysql:mysql-connector-java:${mysqlConnector}"
 
     implementation "com.fasterxml.jackson.core:jackson-core:${jackson}"
     implementation "com.fasterxml.jackson.core:jackson-databind:${jackson}"
     implementation "com.fasterxml.jackson.core:jackson-annotations:${jackson}"
-//    implementation "com.fasterxml.jackson.module:jackson-module-parameter-names:${jackson}"
-//    compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:${jackson}"
-//    implementation "com.fasterxml.jackson.datatype:jackson-datatype-jdk8:${jackson}"
-//    runtime group: 'com.fasterxml.jackson.module', name: 'jackson-modules-java8', version: "${jackson}"
 
     compileOnly "org.projectlombok:lombok:${lombok}"
     annotationProcessor "org.projectlombok:lombok:${lombok}"
     testCompileOnly "org.projectlombok:lombok:${lombok}"
     testAnnotationProcessor "org.projectlombok:lombok:${lombok}"
     testImplementation "de.flapdoodle.embed:de.flapdoodle.embed.mongo"
-    testImplementation ('org.junit.jupiter:junit-jupiter-api:5.3.2')
-    testImplementation ('org.junit.jupiter:junit-jupiter-engine:5.3.2')
+    testImplementation('org.junit.jupiter:junit-jupiter-api:5.3.2')
+    testImplementation('org.junit.jupiter:junit-jupiter-engine:5.3.2')
 
     implementation "org.apache.commons:commons-text:${commonsText}"
     implementation "org.apache.commons:commons-lang3:${commonsLang}"
@@ -87,37 +66,9 @@ dependencies {
     // https://mvnrepository.com/artifact/commons-io/commons-io
     compile group: 'commons-io', name: 'commons-io', version: "${commonsIo}"
 
-    implementation "org.springframework.security.oauth:spring-security-oauth2:${springSecurityOauth}"
 
-    implementation "org.springframework.security:spring-security-oauth2-resource-server:${springSecurity}"
-    implementation "org.springframework.security:spring-security-oauth2-jose:${springSecurity}"
-
-//    implementation "io.springfox:springfox-swagger2:${springfoxSwagger}"
-//    implementation "io.springfox:springfox-swagger-ui:${springfoxSwagger}"
-
-    compile('org.hibernate:hibernate-validator:6.1.5.Final')
-    implementation "com.stripe:stripe-java:${stripe}"
-    compile group: 'com.itextpdf', name: 'itextpdf', version:"${itextVersion}"
-
-    // https://mvnrepository.com/artifact/com.auth0/java-jwt
-    compile group: 'com.auth0', name: 'java-jwt', version: "${auth0JwtVersion}"
-    implementation 'com.auth0:jwks-rsa:0.13.0'
-
-//    KAFKA
-    compile ('org.springframework.kafka:spring-kafka') {
-        exclude group:'com.fasterxml.jackson.core', module: 'jackson-core'
-        exclude group:'com.fasterxml.jackson.core', module: 'jackson-databind'
-
-    }
 }
 
-publishing {
-    publications {
-        maven(MavenPublication) {
-            from(components.java)
-        }
-    }
-}
 
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
